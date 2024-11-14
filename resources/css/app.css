@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .no-arrows {
+        -moz-appearance: textfield;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
+.goods-row:hover input{
+    background: #eee;
+}
+
+
+
+@font-face {
+    font-family:'Futura PT';
+    src: url('../font/FuturaPTHeavy.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Book';
+    src: url("../font/FuturaPTBook.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.register-input__label{
+    display: flex;
+    flex-direction: column;
+}
+
+#burger.open div:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 5px);
+}
+
+#burger.open div:nth-child(2) {
+    opacity: 0;
+}
+
+#burger.open div:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -5px);
+}
+
+.dropdown-menu__mobile{
+    transition: all ease-in-out;
+}
+
+.container, .main, main{
+    margin-top: 6rem !important;
+}
