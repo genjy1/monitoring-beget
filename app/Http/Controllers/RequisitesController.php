@@ -10,9 +10,12 @@ class RequisitesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
         //
+        $requisites = Requisites::where('user_id',$id)->get();
+
+        return response()->json($requisites);
     }
 
     /**
@@ -24,7 +27,7 @@ class RequisitesController extends Controller
         $data = $request->validated();
         $requisite = Requisites::create($data);
 
-        return redirect()->route('user.edit.requisites')->with('success','Реквизиты успешно добавлены');
+        return response()->json(['message'=>'Реквизиты успешно добавлены']);
     }
 
     /**

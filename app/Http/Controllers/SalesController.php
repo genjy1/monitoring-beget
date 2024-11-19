@@ -10,7 +10,7 @@ class SalesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function     index(Request $request)
     {
         //
         $sortField = $request->get('sort', 'id'); // Поле для сортировки, по умолчанию 'id'
@@ -23,7 +23,7 @@ class SalesController extends Controller
         // Получаем данные с сортировкой и пагинацией
         $sales = Sales::orderBy($sortField, $sortDirection)->paginate(15);
 
-        return view('sales.list', compact('sales', 'sortField', 'sortDirection'));
+        return response()->json($sales);
     }
 
     /**

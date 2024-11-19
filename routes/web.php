@@ -23,8 +23,6 @@ Route::middleware('auth')->group(function (){
 
 //    Route::get('/api/machines/',['App\Http\Controllers\CommonController','index'])->name('common.home');
 //    Route::get('/machine/{id}',['App\Http\Controllers\MachineController', 'show'])->name('machine.show');
-    Route::get('/attach',['App\Http\Controllers\MachineController', 'attach'])->name('machine.attach');
-    Route::patch('/attach/patch/{user_id}',['App\Http\Controllers\MachineController','attachPost'])->name('machine.attachPatch');
     Route::get('user/{id}/machines/state',['App\Http\Controllers\MachineController','showState'])->name('machine.showState');
 
     #Show personal account and feedback
@@ -40,10 +38,10 @@ Route::middleware('auth')->group(function (){
 
     #Goods group
 
-    Route::get('user/{id}/goods/list',['App\Http\Controllers\GoodsController','index'])->name('goods.list');
-    Route::get('/goods/state',['App\Http\Controllers\GoodsController','showState'])->name('goods.state');
-    Route::post('goods/store',['App\Http\Controllers\GoodsController','store'])->name('goods.store');
-    Route::patch('goods/{id}/destroy',['App\Http\Controllers\GoodsController','destroy'])->name('goods.destroy');
+//    Route::get('user/{id}/goods/list',['App\Http\Controllers\GoodsController','index'])->name('goods.list');
+//    Route::get('/goods/state',['App\Http\Controllers\GoodsController','showState'])->name('goods.state');
+//    Route::post('goods/store',['App\Http\Controllers\GoodsController','store'])->name('goods.store');
+//    Route::patch('goods/{id}/destroy',['App\Http\Controllers\GoodsController','destroy'])->name('goods.destroy');
 
     #Debug routes
     Route::middleware(AdminMiddleware::class)->group(function (){

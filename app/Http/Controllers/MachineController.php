@@ -55,21 +55,10 @@ class MachineController extends Controller
 
     public function showState()
     {
-        // Получаем параметры сортировки из запроса
-//        $sortField = $request->get('sort', 'id'); // По умолчанию сортировка по 'id'
-//        $sortDirection = $request->get('direction', 'asc'); // По умолчанию по возрастанию
-
-        // Валидация направления сортировки
-//        if (!in_array($sortDirection, ['asc', 'desc'])) {
-//            $sortDirection = 'asc';
-//        }
-
-//        $user = User::find($id);
         $machines = Machine::paginate(10);
 
 
         return response()->json($machines);
-//        return view('machine.state',compact('machines','sortDirection'));
     }
 
     /**
@@ -98,17 +87,32 @@ class MachineController extends Controller
         //
     }
 
-    public function attachPost(Request $request, $user_id)
+    public function attachPost(Request $request)
     {
-        $controllerId = $request->only('controller_id');
-        $machine = Machine::where('controller_id',$controllerId)->first();
+        $controllerId = $request->input('controller_id');
+        $sessionId = $request->input('session_id');
+        if (!$controllerId) {
+            return response()->json(['error' => 'Не указан controller_id'], 400);
+        }
+        if (!$sessionId){
+            return response()->json(['error' => 'Не указан session_id'], 400);
+        }
 
-        $machine->user_id = $user_id;
+        $machine = Machine::where(['controller_id','=', $controllerId],['session_id','=', $sessionId])->first();
 
-        $machine->update();
+        if (!$machine) {
+            return response()->json(['error' => 'Машина с указанным controller_id не найдена'], 404);
+        }
 
-        return redirect()->route('common.home',Auth::user()->id)->with('success','Автомат успешно привязан');
+        // Получение ID аутентифицированного пользователя
+        $userId = Auth::id();
+
+        $machine->user_id = $userId;
+        $machine->save();
+
+        return response()->json(['data' => $request->all(), 'message' => 'Автомат успешно привязан']);
     }
+
 
     public function attach()
     {

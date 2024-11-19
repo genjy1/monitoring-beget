@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sales;
+use Database\Factories\SalesFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,5 +15,6 @@ class SalesSeeder extends Seeder
     public function run(): void
     {
         //
+        Sales::factory(20)->create();
     }
 }

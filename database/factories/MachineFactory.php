@@ -35,6 +35,7 @@ class MachineFactory extends Factory
             'subscription_until'=>fake()->dateTime(),
             'software_version'=>fake()->semver(),
             'controller_id'=>fake()->uuid(),
+            'session_id'=>fake()->uuid(),
             'user_id'=>fake()->randomElement(range(1,10))
         ];
     }
