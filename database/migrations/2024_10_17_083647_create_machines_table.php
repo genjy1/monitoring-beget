@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('goods_total')->nullable()->default(0);
             $table->string('capacity')->default(1);
             $table->string('controller_id');
-            $table->bigInteger('user_id')->unsigned()->nullable()->default(0);
+            $table->bigInteger('user_id')->unsigned()->nullable()->default(0);//Внешний ключ ID пользователя, ссылается на ячейку id в таблице users
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
