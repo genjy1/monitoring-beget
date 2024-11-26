@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('balance')->default(0);
             $table->string('complete')->default(1);
             $table->string('promocode')->nullable();
+            $table->foreignId('good_id')->default(1)->constrained('goods');
             $table->string('cashless_id')->default('amv@vend-shop.com')->nullable();
             $table->bigInteger('machine_id')->unsigned();
             $table->timestamps();

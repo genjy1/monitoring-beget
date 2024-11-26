@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Events;
+use App\Models\Goods;
 use App\Models\Machine;
+use App\Models\Sales;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -82,9 +85,29 @@ class MachineController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Machine $machine)
+    public function getEvents($id)
     {
-        //
+        // Получаем все события для указанного machine_id
+        $events = Events::where('machine_id', $id)->get();
+
+        // Возвращаем результат в формате JSON
+        return response()->json(['events' => $events, 'id' => $id]);
+    }
+
+    public function getSales($id)
+    {
+        $machineId = $id;
+        $machineSales = Sales::where('machine_id', '=', $machineId )->get();
+
+        return response()->json(['sales'=>$machineSales]);
+    }
+
+    public function getSoldGoods($id)
+    {
+        $machineId = $id;
+        $soldGoods = Goods::where('machine_id', '=', $machineId)->get();
+
+        return response()->json(['goods'=>$soldGoods]);
     }
 
     public function attachPost(Request $request)

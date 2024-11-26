@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('machine_id')->references('id')->on('machines')->cascadeOnDelete();//Идентификатор автомата
-            $table->json('settings');//Поле json со всеми настройками автомата
+            $table->foreignId('machine_id')->constrained('machines');
+            $table->integer('local_id');
+            $table->dateTime('datetime');
+            $table->string('type');
+            $table->string('message');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('events');
     }
 };

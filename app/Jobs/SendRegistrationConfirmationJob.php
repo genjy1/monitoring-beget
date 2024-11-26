@@ -35,7 +35,7 @@ class SendRegistrationConfirmationJob implements ShouldQueue
     {
         // Отправка письма с подтверждением регистрации
 
-        Mail::to($this->user->user_email)->send(new RegistrationConfirmation($this->user));
+        Mail::to($this->user->email)->send(new RegistrationConfirmation($this->user));
     }
 }
 

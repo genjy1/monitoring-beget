@@ -26,7 +26,7 @@ class UserFactory extends Factory
         return [
             'fio'=>fake()->name(),
             'user_name' => fake()->userName(),
-            'user_email' => fake()->unique()->safeEmail(),
+            'email' => fake()->unique()->safeEmail(),
             'user_tz'=>fake()->timezone(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

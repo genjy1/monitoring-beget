@@ -10,18 +10,17 @@ class SalesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function     index(Request $request)
+    public function index(Request $request)
     {
         //
-        $sortField = $request->get('sort', 'id'); // Поле для сортировки, по умолчанию 'id'
-        $sortDirection = $request->get('direction', 'asc'); // Направление сортировки, по умолчанию 'asc'
+//        $sortField = $request->get('sort', 'id'); // Поле для сортировки, по умолчанию 'id'
+//        $sortDirection = $request->get('direction', 'asc'); // Направление сортировки, по умолчанию 'asc'
+//
+//        if (!in_array($sortDirection, ['asc', 'desc'])) {
+//            $sortDirection = 'asc';
+//        }
 
-        if (!in_array($sortDirection, ['asc', 'desc'])) {
-            $sortDirection = 'asc';
-        }
-
-        // Получаем данные с сортировкой и пагинацией
-        $sales = Sales::orderBy($sortField, $sortDirection)->paginate(15);
+        $sales = Sales::paginate(15);
 
         return response()->json($sales);
     }

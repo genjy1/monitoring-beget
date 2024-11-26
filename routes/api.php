@@ -12,6 +12,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/machine/{id}/settings',[\App\Http\Controllers\SettingsController::class,'getSettings']);
 Route::post('/machine/{id}/settings/post',[\App\Http\Controllers\SettingsController::class, 'setSettings']);
 Route::patch('/machine/{id}/settings/update',[\App\Http\Controllers\SettingsController::class, 'updateSettings']);
+Route::patch('/machine/{id}/settings/bills',[\App\Http\Controllers\SettingsController::class,'updateBills']);
+Route::get('/machine/{id}/events',[MachineController::class, 'getEvents']);
+Route::get('/machine/{id}/sales',[MachineController::class, 'getSales']);
+Route::get('/machine/{id}/goods_sold',[MachineController::class, 'getSoldGoods']);
+
 
 Route::get('/user/{id}/machines/',['App\Http\Controllers\CommonController','index'])->name('common.home');
 Route::get('/machine/{id}',['App\Http\Controllers\MachineController', 'show'])->name('machine.show');

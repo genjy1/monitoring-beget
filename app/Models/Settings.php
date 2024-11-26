@@ -10,7 +10,7 @@ class Settings extends Model
     /** @use HasFactory<\Database\Factories\SettingsFactory> */
     use HasFactory;
 
-    protected $fillable = ['machine_id','settings'];
+    protected $fillable = ['machine_id','settings','bills'];
 
     protected $casts = [
         'settings' => 'array',

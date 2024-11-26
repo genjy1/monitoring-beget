@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Events;
 use App\Models\Machine;
 use App\Models\Sales;
+use App\Models\Stats;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +22,8 @@ class DatabaseSeeder extends Seeder
          Machine::factory(10)->create();
          Goods::factory(10)->create();
          Sales::factory(10)->create();
+         Events::factory(10)->create();
+         Stats::factory(10)->create();
 //        User::factory()->create([
 //            'name' => 'Test User',
 //            'email' => 'test@example.com',

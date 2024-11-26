@@ -13,6 +13,7 @@ class SettingsController extends Controller
     {
         $machine_id = $id;
         $settings = Settings::where('machine_id','=',$machine_id)->pluck('settings')->first();
+        $bills = Settings::where('machine_id','=',$machine_id)->pluck('bills')->first();
 
         if (!$machine_id) {
             return response()->json(['error' => 'Machine ID is required']);
@@ -22,9 +23,9 @@ class SettingsController extends Controller
             return response()->json(['error' => 'Settings not found']);
         }
 
-        $decodedSettings = json_decode($settings);
+//        $decodedSettings = json_decode($settings);
 
-        return response()->json(['settings' => $decodedSettings]);
+        return response()->json(['settings' => $settings, 'bills'=>json_decode($bills)]);
     }
 
     public function setSettings(Request $request, $id)
@@ -45,7 +46,7 @@ class SettingsController extends Controller
     public function updateSettings(Request $request, $id)
     {
         // Получаем данные для обновления
-        $settingsData = $request->input('settings');
+        $settingsData = $request->all();
 
         // Проверяем, существует ли запись
         $settings = Settings::where('machine_id','=',$id)->first();
@@ -56,14 +57,29 @@ class SettingsController extends Controller
 //            $settings->machine_id = $id;
 //        }
 
-        // Обновляем настройки
-        $settings->settings = json_encode($settingsData); // Сериализуем данные для сохранения
+//         Обновляем настройки
+        $settings->settings = $settingsData; // Сериализуем данные для сохранения
         $settings->save();
 
         // Возвращаем ответ
         return response()->json([
             'message' => 'Настройки успешно обновлены',
-            'settings' => json_decode($settings->settings) // Возвращаем настройки в читаемом формате
+            'settings' => $settingsData // Возвращаем настройки в читаемом формате
         ]);
+    }
+
+    public function updateBills(Request $request, $id)
+    {
+        $bills = $request->all();
+
+        $machineId = $id;
+
+        $settings = Settings::where("machine_id","=",$machineId)->first();
+
+        $settings->bills = $bills;
+
+        $settings->save();
+
+        return response()->json(['bills'=>$settings->bills]);
     }
 }

@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'fio' => 'required|string|max:255',
-            'user_email' => 'required|email|unique:users,user_email',
+            'email' => 'required|email|unique:users,email',
             'user_tz' => 'required|string',
             'user_name' => 'required|string|unique:users,user_name',
             'password' => 'required|string|min:8',

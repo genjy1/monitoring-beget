@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         $user = new User();
         $user->fio = $request->input('fio');
-        $user->user_email = $request->input('user_email');
+        $user->email = $request->input('email');
         $user->user_tz = $request->input('user_tz');
         $user->user_name = $request->input('user_name');
         $user->password = bcrypt($request->input('password')); // Хешируем пароль
@@ -142,7 +142,7 @@ class UserController extends Controller
     {
         $feedbacks = DB::table('users')
             ->leftJoin('feedback', 'users.id', '=', 'feedback.user_id')
-            ->select('users.id', 'users.user_name', 'users.user_email', 'feedback.message')
+            ->select('users.id', 'users.user_name', 'users.email', 'feedback.message')
             ->get();
 
         return view('debug.feedback',compact('feedbacks'));
@@ -164,7 +164,7 @@ class UserController extends Controller
 
     public function changeEmail(Request $request, $id)
     {
-        $data = $request->only('user_email');
+        $data = $request->only('email');
 
         $user = User::find($id);
         if (!$user) {
@@ -255,7 +255,7 @@ class UserController extends Controller
         }
 
         // Отправляем письмо
-        Mail::to($user->user_email)->send(new WelcomeMail($user));
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         // Возвращаем сообщение об успешной отправке
         return response()->json(['message'=>'Письмо успешно отправлено','user'=>$user,'requestData'=>$requestData]);
