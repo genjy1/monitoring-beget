@@ -25,7 +25,7 @@ class SettingsController extends Controller
 
 //        $decodedSettings = json_decode($settings);
 
-        return response()->json(['settings' => $settings, 'bills'=>json_decode($bills)]);
+        return response()->json(['settings' => json_decode($settings), 'bills'=>json_decode($bills)]);
     }
 
     public function setSettings(Request $request, $id)
@@ -34,7 +34,7 @@ class SettingsController extends Controller
 
 
         try {
-            Settings::create(['machine_id'=>$id,'settings'=>json_encode($settings)]);
+            Settings::create(['machine_id'=>$id,'settings'=>json_encode($settings),'bills'=>'{"bills":[{"value":10,"enabled":false},{"value":50,"enabled":false},{"value":100,"enabled":false},{"value":500,"enabled":false},{"value":1000,"enabled":false},{"value":200,"enabled":false},{"value":2000,"enabled":false}],"coins":[{"value":1,"enabled":false},{"value":2,"enabled":false},{"value":5,"enabled":false},{"value":10,"enabled":false}]}']);
 
             return response()->json(['message' => 'All good']);
         } catch (\Exception $error) {
@@ -45,41 +45,72 @@ class SettingsController extends Controller
 
     public function updateSettings(Request $request, $id)
     {
-        // Получаем данные для обновления
+        // Получаем данные из запроса
         $settingsData = $request->all();
 
-        // Проверяем, существует ли запись
-        $settings = Settings::where('machine_id','=',$id)->first();
+        // Проверяем, существует ли ключ 'settings' в запросе
+        if (!isset($settingsData['settings'])) {
+            return response()->json(['error' => '"settings" key is missing from the request'], 400);
+        }
 
-//        if (!$settings) {
-//            // Если запись не найдена, создаём новую
-//            $settings = new Settings();
-//            $settings->machine_id = $id;
-//        }
+        // Теперь мы уверены, что ключ 'settings' существует, и можем продолжить
+        $settings = Settings::where('machine_id', $id)->first();
 
-//         Обновляем настройки
-        $settings->settings = $settingsData; // Сериализуем данные для сохранения
-        $settings->save();
+        if ($settings) {
+            // Обновляем настройки
+            $settings->settings = json_encode($settingsData['settings']);  // Сериализуем данные
 
-        // Возвращаем ответ
-        return response()->json([
-            'message' => 'Настройки успешно обновлены',
-            'settings' => $settingsData // Возвращаем настройки в читаемом формате
-        ]);
+            // Если 'bills' отсутствует, то присваиваем пустой массив или подходящее значение по умолчанию
+            $settings->bills = isset($settingsData['bills']) && !empty($settingsData['bills'])
+                ? json_encode($settingsData['bills'])
+                : json_encode([
+                    'bills' => [
+                        ['value' => 10, 'enabled' => false],
+                        ['value' => 50, 'enabled' => false],
+                        ['value' => 100, 'enabled' => false],
+                        ['value' => 500, 'enabled' => false],
+                        ['value' => 1000, 'enabled' => false],
+                        ['value' => 200, 'enabled' => false],
+                        ['value' => 2000, 'enabled' => false],
+                    ],
+                    'coins' => [
+                        ['value' => 1, 'enabled' => false],
+                        ['value' => 2, 'enabled' => false],
+                        ['value' => 5, 'enabled' => false],
+                        ['value' => 10, 'enabled' => false],
+                    ]
+                ]);   // Пустой массив или другие значения
+
+            $settings->save();
+
+            return response()->json([
+                'message' => 'Настройки успешно обновлены',
+                'settings' => $settingsData['settings'] // Возвращаем обновленные настройки
+            ]);
+        } else {
+            return response()->json(['error' => 'Settings not found'], 404);
+        }
     }
+
+
 
     public function updateBills(Request $request, $id)
     {
-        $bills = $request->all();
-
+        $bills = $request->all(); // Получаем данные, которые передаются в запросе
         $machineId = $id;
 
-        $settings = Settings::where("machine_id","=",$machineId)->first();
+        // Преобразуем массив bills в строку JSON
+        $bills = json_encode($bills);
 
-        $settings->bills = $bills;
+        // Обновляем или создаем запись с данным machine_id
+        $settings = Settings::updateOrCreate(
+            ['machine_id' => $machineId], // Условие для поиска записи
+            ['bills' => $bills] // Сериализуемый JSON для поля bills
+        );
 
-        $settings->save();
-
-        return response()->json(['bills'=>$settings->bills]);
+        // Возвращаем обновленные или созданные данные
+        return response()->json(['bills' => json_decode($settings->bills)]);
     }
+
+
 }
