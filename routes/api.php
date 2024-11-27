@@ -17,6 +17,7 @@ Route::get('/machine/{id}/settings/kassa',[\App\Http\Controllers\SettingsControl
 Route::get('/machine/{id}/settings/qr',[\App\Http\Controllers\SettingsController::class, 'getQrPaymentsSettings']);
 Route::patch('/machine/{id}/settings/kassa/update',[\App\Http\Controllers\SettingsController::class, 'setKassaSettings']);
 Route::patch('/machine/{id}/settings/qr/update',[\App\Http\Controllers\SettingsController::class, 'setQrPaymentSettings']);
+Route::patch('/machine/{id}/detach', [MachineController::class, 'detach']);
 Route::get('/machine/{id}/events',[MachineController::class, 'getEvents']);
 Route::get('/machine/{id}/sales',[MachineController::class, 'getSales']);
 Route::get('/machine/{id}/goods_sold',[MachineController::class, 'getSoldGoods']);

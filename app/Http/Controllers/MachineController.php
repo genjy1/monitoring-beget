@@ -6,6 +6,7 @@ use App\Models\Events;
 use App\Models\Goods;
 use App\Models\Machine;
 use App\Models\Sales;
+use Error;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -139,5 +140,21 @@ class MachineController extends Controller
     public function attach()
     {
         return view('machine.attach');
+    }
+
+    public function detach($id)
+    {
+        try{
+            $machine = Machine::find($id);
+
+            $machine->user_id = null;
+
+            $machine->save();
+
+            return response()->json(['success'=>'Автомат успешно отвязан']);
+        }catch (Error $error){
+            return response()->json(['error'=>$error]);
+        }
+
     }
 }

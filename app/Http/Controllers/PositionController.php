@@ -17,7 +17,7 @@ class PositionController extends Controller
 
     public function setPositions()
     {
-        
+
     }
 
 }
