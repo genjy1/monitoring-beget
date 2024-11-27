@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('machine_id')->references('id')->on('machines')->cascadeOnDelete();//Идентификатор автомата
             $table->json('settings');//Поле json со всеми настройками автомата
             $table->json('bills');
+            $table->json('online_kassa_settings')->nullable();
+            $table->json('qr_payments_settings')->nullable();
             $table->timestamps();
         });
     }

@@ -326,7 +326,7 @@ class UserController extends Controller
         $user->email_verification_token = null;
         $user->save();
 
-        return redirect()->route('home')->with('status', 'Your email has been confirmed!');
+        return response()->json(['status'=>  'Your email has been confirmed!']);
     }
 
 }

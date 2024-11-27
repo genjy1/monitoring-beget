@@ -13,6 +13,10 @@ Route::get('/machine/{id}/settings',[\App\Http\Controllers\SettingsController::c
 Route::post('/machine/{id}/settings/post',[\App\Http\Controllers\SettingsController::class, 'setSettings']);
 Route::patch('/machine/{id}/settings/update',[\App\Http\Controllers\SettingsController::class, 'updateSettings']);
 Route::patch('/machine/{id}/settings/bills',[\App\Http\Controllers\SettingsController::class,'updateBills']);
+Route::get('/machine/{id}/settings/kassa',[\App\Http\Controllers\SettingsController::class,'getKassaSettings']);
+Route::get('/machine/{id}/settings/qr',[\App\Http\Controllers\SettingsController::class, 'getQrPaymentsSettings']);
+Route::patch('/machine/{id}/settings/kassa/update',[\App\Http\Controllers\SettingsController::class, 'setKassaSettings']);
+Route::patch('/machine/{id}/settings/qr/update',[\App\Http\Controllers\SettingsController::class, 'setQrPaymentSettings']);
 Route::get('/machine/{id}/events',[MachineController::class, 'getEvents']);
 Route::get('/machine/{id}/sales',[MachineController::class, 'getSales']);
 Route::get('/machine/{id}/goods_sold',[MachineController::class, 'getSoldGoods']);

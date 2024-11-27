@@ -136,7 +136,6 @@ class MachineController extends Controller
         return response()->json(['data' => $request->all(), 'message' => 'Автомат успешно привязан']);
     }
 
-
     public function attach()
     {
         return view('machine.attach');
