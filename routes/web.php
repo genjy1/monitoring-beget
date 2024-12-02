@@ -56,6 +56,10 @@ Route::middleware('auth')->group(function (){
 #API
 Route::middleware('auth:sanctum')->get('/user', ['App\Http\Controllers\UserController', 'user']);
 
+Route::middleware(\App\Http\Middleware\ListenPort::class)->group(function () {
+    Route::get('/', [\App\Http\Controllers\HandlerController::class, 'handle'])->name('handler.handle');
+    Route::get('/test', [\App\Http\Controllers\HandlerController::class, 'test'])->name('handler.test');
+});
 
 
 #Registration, authorization, authentication

@@ -43,6 +43,12 @@ class GoodsController extends Controller
         $good->code = $request->code;
         $good->remains = 1;
 
+        if ($request->hasFile('file')) {
+            // Сохранение изображения
+            $path = $request->file('file')->store('goods_images', 'public');
+            $good->image = $path;
+        }
+
         $good->save();
 
         return back()->with('success','Товар доставлен успешно');
@@ -59,9 +65,13 @@ class GoodsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Goods $goods)
+    public function show(Goods $goods, $id)
     {
         //
+        $good = Goods::find($id);
+
+        return response()->json(['good'=>$good]);
+
     }
 
     /**

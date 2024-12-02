@@ -23,12 +23,8 @@ class RequisitesRequest extends FormRequest
     {
         return [
             //
-            'paymentAccount'=>'required',
-            'correspondingAccount'=>'required',
-            'BIK'=>'required',
-            'bankName'=>'required|string|max:150',
-            'INN'=>'required|unique:requisites,INN',
-            'user_id'=>'required'
+            'requisites'=>'required|json',
+            'user_id'=>'required|'
         ];
     }
 }

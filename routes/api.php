@@ -9,6 +9,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/attach', [MachineController::class, 'attachPost']);
 });
 
+
+
 Route::get('/machine/{id}/settings',[\App\Http\Controllers\SettingsController::class,'getSettings']);
 Route::post('/machine/{id}/settings/post',[\App\Http\Controllers\SettingsController::class, 'setSettings']);
 Route::patch('/machine/{id}/settings/update',[\App\Http\Controllers\SettingsController::class, 'updateSettings']);
@@ -34,10 +36,10 @@ Route::post('/feedback',['App\Http\Controllers\UserController', 'sendFeedback'])
 Route::post('/forgot-password-post',['App\Http\Controllers\UserController','forgotPasswordPost'])->name('forgot-password-post');
 Route::post('/register',['App\Http\Controllers\UserController','registerPost'])->name('registerPost');
 
-
 Route::get('/goods/list',['App\Http\Controllers\GoodsController','index'])->name('goods.list');
 Route::get('/goods/state',['App\Http\Controllers\GoodsController','showState'])->name('goods.state');
 Route::patch('/goods/{id}/destroy',['App\Http\Controllers\GoodsController','destroy'])->name('goods.destroy');
+Route::get('/good/{id}/show',['App\Http\Controllers\GoodsController','show'])->name('goods.show');
 
 Route::patch('/user/{id}/update/name',['App\Http\Controllers\UserController','changeUserName'])->name('changeUserName');
 

@@ -21,14 +21,27 @@ class RequisitesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(RequisitesRequest $request)
+    public function create(Request $request, $id)
     {
-        //
-        $data = $request->validated();
-        $requisite = Requisites::create($data);
+        $validated = $request->validate([
+            'requisites.organization.name' => 'required|string',
+            'requisites.organization.inn' => 'required|string|max:12',
+            'requisites.organization.address' => 'required|string',
+            'requisites.organization.payment_account' => 'required|string',
+            'requisites.bank.bic' => 'required|string|max:9',
+            'requisites.bank.name' => 'required|string',
+            'requisites.bank.correspondent_account' => 'required|string',
+            'requisites.bank.address' => 'required|string',
+        ]);
 
-        return response()->json(['message'=>'Реквизиты успешно добавлены']);
+        $requisite = new Requisites();
+        $requisite->user_id = $id;
+        $requisite->requisites = json_encode($validated);
+        $requisite->save();
+
+        return response()->json(['message' => 'Реквизиты успешно добавлены']);
     }
+
 
     /**
      * Store a newly created resource in storage.
