@@ -40,6 +40,7 @@ Route::get('/goods/list',['App\Http\Controllers\GoodsController','index'])->name
 Route::get('/goods/state',['App\Http\Controllers\GoodsController','showState'])->name('goods.state');
 Route::patch('/goods/{id}/destroy',['App\Http\Controllers\GoodsController','destroy'])->name('goods.destroy');
 Route::get('/good/{id}/show',['App\Http\Controllers\GoodsController','show'])->name('goods.show');
+Route::post('/good/{id}/update',['App\Http\Controllers\GoodsController','update'])->name('goods.update');
 
 Route::patch('/user/{id}/update/name',['App\Http\Controllers\UserController','changeUserName'])->name('changeUserName');
 

@@ -85,10 +85,37 @@ class GoodsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Goods $goods)
+    public function update(Request $request, $id)
     {
-        //
+        // Находим товар по ID
+        $good = Goods::find($id);
+
+        // Валидируем данные, изображение теперь не обязательно
+        $data = $request->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:10240' // Указываем допустимые типы и максимальный размер
+        ]);
+
+        // Проверяем, есть ли файл изображения и если он валиден
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Сохраняем изображение и получаем путь
+            $path = $request->file('image')->store('/goods_images', 'public');
+            // Обновляем путь к изображению
+            $good->image = asset($path);
+        }
+
+        // Обновляем другие данные товара
+        $good->name = $data['name'];
+        $good->code = $data['code'];
+
+        // Сохраняем изменения в базе данных
+        $good->save();
+
+        // Возвращаем успешный ответ
+        return response()->json(['message' => 'Product updated successfully'], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

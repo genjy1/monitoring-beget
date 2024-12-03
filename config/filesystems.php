@@ -40,10 +40,10 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL').'/storage/public',
             'visibility' => 'public',
-            'throw' => false,
         ],
+
 
         's3' => [
             'driver' => 's3',
@@ -71,8 +71,6 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
-        base_path('public_html') => storage_path('monitoring-beget/public'),
-    ],
+        public_path('storage_images') => storage_path('app/public/goods_images')   ],
 
 ];
